@@ -7,6 +7,9 @@ WORKDIR /work
 COPY requirements.txt .
 COPY main.py .
 
+# Optional
+ENV FLASK_APP=main.py
+
 # Upgrade base image libraries to prevent security vulnerabilities
 RUN apt-get --quiet update && \
     apt-get --quiet --assume-yes upgrade && \
@@ -14,8 +17,6 @@ RUN apt-get --quiet update && \
     rm --recursive --force /var/lib/apt/lists/* && \
     python -m venv .venv && \
     .venv/bin/pip install --no-cache-dir --requirement requirements.txt
-
-ENV FLASK_APP=main.py
 
 # Create default user
 RUN groupadd --system docker && useradd --system --shell /bin/false --gid docker docker
